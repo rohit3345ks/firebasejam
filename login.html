@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Firebase Study Jam 2020</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-4 offset-md-4">
+              <h1>Login</h1>
+              <div class="form-group">
+                  <input type="email" placeholder="Email" class="form-control" id="email">
+              </div>
+              <div class="form-group">
+                  <input type="password" placeholder="Password" class="form-control" id="password">
+              </div>
+              <button id="login" class="btn btn-primary">Login</button>
+              <br>
+              <a href="index.html">Home View</a>
+            
+          </div>
+        </div>
+      </div>
+   
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.0/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCK-C8iCfHCYIUzwZToVeWR76vExNcS_JA",
+    authDomain: "fir-studyjam-d74e1.firebaseapp.com",
+    databaseURL: "https://fir-studyjam-d74e1.firebaseio.com",
+    projectId: "fir-studyjam-d74e1",
+    storageBucket: "fir-studyjam-d74e1.appspot.com",
+    messagingSenderId: "64212118835",
+    appId: "1:64212118835:web:a0f59ea819140532a56246"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  document.getElementById('login').addEventListener('click',login);
+  function login()
+  {
+      var email=document.getElementById('email').value;
+      var password=document.getElementById('password').value;
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
+  }
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("Hey! "+user.email+", You have successfully signed in.");
+    window.location='dashboard.html';
+  } else {
+    console.log('Jaa Pehle Sahi Password Bhar');
+    window.location='login.html';
+  }
+});
+</script>
+
+</body>
+</html>

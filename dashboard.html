@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Firebase Study Jam 2020</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+   <div id="userdata">
+
+   </div>
+   <div id="data"></div>
+   <button id="logout" class='btn btn-primary'>LogOut</button>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.0/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCK-C8iCfHCYIUzwZToVeWR76vExNcS_JA",
+    authDomain: "fir-studyjam-d74e1.firebaseapp.com",
+    databaseURL: "https://fir-studyjam-d74e1.firebaseio.com",
+    projectId: "fir-studyjam-d74e1",
+    storageBucket: "fir-studyjam-d74e1.appspot.com",
+    messagingSenderId: "64212118835",
+    appId: "1:64212118835:web:a0f59ea819140532a56246"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("Hey! "+user.email+", You have successfully signed in.");
+    document.getElementById('userdata').innerHTML=`
+    <p>User Email: ${user.email} </p>`;
+
+  } else {
+    console.log('Jaa Pehle Sahi Password Bhar');
+    window.location='login.html';
+  }
+});
+var i=1;
+firebase.database().ref('data3').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childKey = childSnapshot.key;
+          var childData = childSnapshot.val();
+          document.getElementById('data').innerHTML += `
+              <tr>
+                  <th scope="row">`+i+++`</th>
+                  <td>`+childData.Date+`</td><br>
+                  <td>`+childData.Message+`</td><br><br><br>
+                  <td><button class='btn btn-danger btn-sm' onclick='deleteData("`+childKey+`")'>Delete</button></td>
+              </tr>
+          `;
+        });
+      });
+document.getElementById('logout').addEventListener('click',logout);
+function logout()
+{
+    firebase.auth().signOut().then(function(user){
+        window.location='login.html';
+    })
+}
+</script>
+
+</body>
+</html>
